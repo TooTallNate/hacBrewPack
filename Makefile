@@ -13,8 +13,8 @@ all:
 .c.o:
 	$(CC) $(INCLUDE) -c $(CFLAGS) -o $@ $<
 
-hacbrewpack.html: sha.o aes.o extkeys.o pki.o utils.o main.o filepath.o ConvertUTF.o nca.o romfs.o pfs0.o ivfc.o nacp.o npdm.o cnmt.o rsa.o
-	$(CC) -o $@ $^ $(LDFLAGS) -L $(LIBDIR) --pre-js pre.js -sTOTAL_STACK=655360 -sENVIRONMENT=web -sALLOW_MEMORY_GROWTH -s EXPORTED_RUNTIME_METHODS='["run", "callMain", "addRunDependency", "removeRunDependency"]'
+hacbrewpack.js: sha.o aes.o extkeys.o pki.o utils.o main.o filepath.o ConvertUTF.o nca.o romfs.o pfs0.o ivfc.o nacp.o npdm.o cnmt.o rsa.o
+	$(CC) -o $@ $^ $(LDFLAGS) -L $(LIBDIR) -sTOTAL_STACK=655360 -sENVIRONMENT=web -sALLOW_MEMORY_GROWTH -s EXPORTED_RUNTIME_METHODS='["run", "callMain", "FS"]' -sMODULARIZE -s 'EXPORT_NAME="hacbrewpack"'
 
 hacbrewpack: sha.o aes.o extkeys.o pki.o utils.o main.o filepath.o ConvertUTF.o nca.o romfs.o pfs0.o ivfc.o nacp.o npdm.o cnmt.o rsa.o
 	$(CC) -o $@ $^ $(LDFLAGS) -L $(LIBDIR)
