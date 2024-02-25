@@ -8,13 +8,13 @@ CFLAGS += -D_BSD_SOURCE -D_POSIX_SOURCE -D_POSIX_C_SOURCE=200112L -D_DEFAULT_SOU
 
 all:
 	cd mbedtls && $(MAKE) lib
-	$(MAKE) hacbrewpack
+	$(MAKE) hacbrewpack.js
 
 .c.o:
 	$(CC) $(INCLUDE) -c $(CFLAGS) -o $@ $<
 
 hacbrewpack.js: sha.o aes.o extkeys.o pki.o utils.o main.o filepath.o ConvertUTF.o nca.o romfs.o pfs0.o ivfc.o nacp.o npdm.o cnmt.o rsa.o
-	$(CC) -o $@ $^ $(LDFLAGS) -L $(LIBDIR) -sTOTAL_STACK=655360 -sENVIRONMENT=web -sALLOW_MEMORY_GROWTH -s EXPORTED_RUNTIME_METHODS='["run", "callMain", "FS"]' -sMODULARIZE -s 'EXPORT_NAME="hacbrewpack"'
+	$(CC) -o $@ $^ $(LDFLAGS) -L $(LIBDIR) -sSTACK_SIZE=655360 -sTOTAL_STACK=655360 -sENVIRONMENT=node -sALLOW_MEMORY_GROWTH -s EXPORTED_RUNTIME_METHODS='["run", "callMain", "FS"]' -s NODERAWFS=1
 
 hacbrewpack: sha.o aes.o extkeys.o pki.o utils.o main.o filepath.o ConvertUTF.o nca.o romfs.o pfs0.o ivfc.o nacp.o npdm.o cnmt.o rsa.o
 	$(CC) -o $@ $^ $(LDFLAGS) -L $(LIBDIR)
